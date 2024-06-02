@@ -14,7 +14,7 @@ export const getOneContact = async (req, res) => {
     const { id } = req.params;
 
     const contact = await contactsService.getContactById(id);
-    if (contact != null) {
+    if (contact) {
       res.status(200).json(contact);
     } else {
       res.status(404).json({ message: "Not found" });
