@@ -4,7 +4,7 @@ import path from "path";
 
 const contactsPath = path.resolve("db", "contacts.json");
 
-export async function listContacts() {
+async function listContacts() {
   const data = await fs.readFile(contactsPath, "utf8", (err) => {
     if (err) {
       console.log(err.message);
@@ -14,7 +14,7 @@ export async function listContacts() {
   return JSON.parse(data);
 }
 
-export async function getContactById(contactId) {
+async function getContactById(contactId) {
   let mass = await listContacts();
   let needContact = mass.find((contact) => contact.id === contactId);
   if (needContact === undefined) {
@@ -24,7 +24,7 @@ export async function getContactById(contactId) {
   }
 }
 
-export async function removeContact(contactId) {
+async function removeContact(contactId) {
   let mass = await listContacts();
   let delContact = await getContactById(contactId);
   if (delContact === undefined) {
@@ -40,7 +40,7 @@ export async function removeContact(contactId) {
   }
 }
 
-export async function addContact(name, email, phone) {
+async function addContact(name, email, phone) {
   let newContact = {
     name: name,
     email: email,
@@ -56,3 +56,10 @@ export async function addContact(name, email, phone) {
   });
   return newContact;
 }
+
+export default {
+    listContacts,
+    getContactById,
+    removeContact,
+    addContact,
+  };
