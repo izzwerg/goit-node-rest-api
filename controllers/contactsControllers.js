@@ -82,3 +82,27 @@ export const updateContact = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+export const updateContactFavorite = async (req, res) => {
+  const { id } = req.params;
+  const contact = await contactsService.getContactById(id);
+  if (contact) {
+    const { favorite } = req.body;
+    const { error } = schema.updateContactFavoriteSchema.validate(req.body);
+    if (error) {
+      res.status(400).json({ message: error.message });
+    } else {
+      try {
+        const updatedContact = await contactsService.updateStatusContact(
+          id,
+          favorite
+        );
+        res.status(200).json(updatedContact);
+      } catch (error) {
+        res.status(400).json({ message: error.message });
+      }
+    }
+  } else {
+    res.status(404).json({ message: "Not found" });
+  }
+};
