@@ -50,7 +50,7 @@ export const createContact = async (req, res) => {
         email,
         phone
       );
-      res.status(200).json(createdContact);
+      res.status(201).json(createdContact);
     }
   } catch (error) {
     res.status(400).json({ message: error.message });
