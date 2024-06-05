@@ -48,27 +48,21 @@ async function addContact(name, email, phone, favorite = false) {
   }
 }
 
-async function updateContact(contactId, favorite, name, email, phone) {
-  const targetContact = await Contact.findById(contactId);
-  if (targetContact == null) {
-    return null;
-  }
-  const newData = {
-    name: name !== undefined ? name : targetContact.name,
-    email: email !== undefined ? email : targetContact.email,
-    phone: phone !== undefined ? phone : targetContact.phone,
-    favorite: favorite !== undefined ? favorite : targetContact.favorite,
-  };
-
-  try {
-    const result = await Contact.findByIdAndUpdate(contactId, newData, {
+async function updateContact(contactId, name, email, phone, favorite) {
+  const updatedContact = await Contact.findById(contactId);
+  if (updatedContact) {
+    const newData = {
+          name: name !== undefined ? name : updateContact.name,
+          email: email !== undefined ? email : updateContact.email,
+          phone: phone !== undefined ? phone : updateContact.phone,
+          favorite: favorite !== undefined ? favorite : updateContact.favorite,
+        };
+    await Contact.findByIdAndUpdate(contactId, newData, {
       new: true,
     });
-    console.log(result);
-    return result;
-  } catch (error) {
-    console.log(error.message);
-    return;
+    return updatedContact;
+  } else {
+    return null;
   }
 }
 
