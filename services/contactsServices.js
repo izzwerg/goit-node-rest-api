@@ -60,17 +60,17 @@ async function addContact(ownerId, name, email, phone, favorite = false) {
   }
 }
 
-async function updateContact(contactId, ownerId, contactName, email, phone, favorite) {
+async function updateContact(contactId, ownerId, name, email, phone, favorite) {
   let updatedContact = await Contact.findOne({
     _id: contactId,
     owner: ownerId,
   });
   if (updatedContact) {
     const newData = {
-      name: contactName !== undefined ? contactName : updateContact.contactName,
-      email: email !== undefined ? email : updateContact.email,
-      phone: phone !== undefined ? phone : updateContact.phone,
-      favorite: favorite !== undefined ? favorite : updateContact.favorite,
+      name: name !== undefined ? name : updatedContact.name,
+      email: email !== undefined ? email : updatedContact.email,
+      phone: phone !== undefined ? phone : updatedContact.phone,
+      favorite: favorite !== undefined ? favorite : updatedContact.favorite,
     };
     await Contact.findByIdAndUpdate(contactId, newData, {
       new: true,
