@@ -1,6 +1,7 @@
 import User from "../models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import gravatar from "gravatar";
 
 const registerUser = async (credentials) => {
   try {
@@ -15,6 +16,7 @@ const registerUser = async (credentials) => {
       email,
       password: passwordHash,
       subscription,
+      avatarURL: gravatar.url(email),
     });
     return newUser;
   } catch (error) {}
@@ -70,10 +72,33 @@ const updateSubscriptionUser = async (id, subscription) => {
   } catch (error) {}
 };
 
+const getUserAvatar = async (id) => {
+  try {
+    const user = await User.findById(id);
+
+    return user.avatarURL;
+  } catch (error) {}
+};
+
+const updateUserAvatar = async (id, filename) => {
+  try {
+    const data = await User.findByIdAndUpdate(
+      id,
+      { avatarURL: "/avatars/" + filename },
+      {
+        new: true,
+      }
+    );
+    return data.avatarURL;
+  } catch (error) {}
+};
+
 export default {
   registerUser,
   loginUser,
   logoutUser,
   currentUser,
   updateSubscriptionUser,
+  getUserAvatar,
+  updateUserAvatar,
 };
