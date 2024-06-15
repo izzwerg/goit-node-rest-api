@@ -27,5 +27,7 @@ router.patch(
   },
   AuthController.updateAvatar
 );
+router.get("/verify/:verificationToken", AuthController.verifyEmail);
+router.post("/verify/", AuthController.sendVerificationEmail);
 
 export default router;
